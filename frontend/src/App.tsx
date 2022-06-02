@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import liff from '@line/liff';
-import { useBarcode } from 'react-barcodes';
+import { Card } from './components/card';
 import './App.css';
 
 function App() {
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
-    const { inputRef } = useBarcode({ value: 'react' });
+
 
     useEffect(() => {
         liff.init({
@@ -37,7 +37,7 @@ function App() {
             >
                 LIFF Documentation
             </a>
-            <svg ref={inputRef} />
+            <Card userId='1234567890'></Card>
         </div>
     );
 }
