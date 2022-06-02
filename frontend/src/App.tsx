@@ -1,45 +1,51 @@
 import { useEffect, useState } from 'react';
-import liff from '@line/liff';
 import { Card } from './components/card';
+// TODO: カッコよくhooksにしたい
+// import { useProfile } from './hooks';
+import liff from '@line/liff';
+import { LiffMockPlugin } from '@line/liff-mock';
 import './App.css';
 
+const isMockMode = import.meta.env.VITE_LIFF_MOCK_MODE === 'true';
+const liffId = import.meta.env.VITE_LIFF_ID;
+const redirectUri = import.meta.env.VITE_LIFF_REDIRECT_URI;
+
+if (isMockMode) {
+  console.log('mock mode');
+  liff.use(new LiffMockPlugin());
+}
+
 function App() {
-    const [message, setMessage] = useState('');
-    const [error, setError] = useState('');
+  const [error, setError] = useState('');
+  // TODO: any を駆逐する
+  // Profile は /node_modules/@liff/get-profile/lib/index.d.ts にあるけど、exportされてない？
+  const [profile, setProfile] = useState<any>();
 
+  useEffect(() => {
+    liff
+      .init({
+        liffId,
+        mock: isMockMode,
+      })
+      .then(() => {
+        if (!liff.isLoggedIn()) {
+          liff.login({ redirectUri });
+        }
+        liff.getProfile().then((profile) => {
+          console.log({ profile });
+          setProfile(profile);
+        });
+      })
+      .catch((e: Error) => {
+        setError(`${e}`);
+      });
+  }, []);
 
-    useEffect(() => {
-        liff.init({
-            liffId: import.meta.env.VITE_LIFF_ID,
-        })
-            .then(() => {
-                setMessage('LIFF init succeeded.');
-            })
-            .catch((e: Error) => {
-                setMessage('LIFF init failed.');
-                setError(`${e}`);
-            });
-    });
-
-    return (
-        <div className="App">
-            <h1>create-liff-app</h1>
-            {message && <p>{message}</p>}
-            {error && (
-                <p>
-                    <code>{error}</code>
-                </p>
-            )}
-            <a
-                href="https://developers.line.biz/ja/docs/liff/"
-                target="_blank"
-                rel="noreferrer"
-            >
-                LIFF Documentation
-            </a>
-            <Card userId='1234567890'></Card>
-        </div>
-    );
+  return (
+    <div className="App">
+      {error ? error : <Card userId={profile?.userId}></Card>}
+    </div>
+  );
 }
 
 export default App;

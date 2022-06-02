@@ -1,12 +1,22 @@
-import { useBarcode } from 'react-barcodes';
+import { AspectRatio, Box, Skeleton } from '@chakra-ui/react';
+import { Barcode } from '../barcode';
 
 interface CardPropsInterface {
-    userId: string;
-};
+  userId?: string;
+}
 
 export const Card = (props: CardPropsInterface) => {
-    // TODO: liff.init後に取得できるUserIDを入れたい
-    const { inputRef } = useBarcode({ value: props.userId });
-
-    return <svg ref={inputRef} />;
+  return (
+    <Box margin="40px">
+      <AspectRatio ratio={1.618 / 1}>
+        <Box boxShadow="base" borderRadius="20px">
+          {props.userId ? (
+            <Barcode id={props.userId}></Barcode>
+          ) : (
+            <Skeleton width="50%" height="80px"></Skeleton>
+          )}
+        </Box>
+      </AspectRatio>
+    </Box>
+  );
 };
