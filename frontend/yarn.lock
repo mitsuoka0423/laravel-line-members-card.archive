@@ -1061,7 +1061,7 @@
   resolved "https://registry.yarnpkg.com/@liff/get-version/-/get-version-2.20.1.tgz#c4747c563ab0d6b27c37950430b82b65d4606c33"
   integrity sha512-Mmon9K0t09po+XH4jHv8+STqoI1Gp2BTBFENNpjw3zBoyKeboYDazPYmzXekmI3Q1axwxGtgh3uxqW8ycZHVyg==
 
-"@liff/hooks@2.20.1":
+"@liff/hooks@2.20.1", "@liff/hooks@^2.20.1":
   version "2.20.1"
   resolved "https://registry.yarnpkg.com/@liff/hooks/-/hooks-2.20.1.tgz#5a179ea587a04895891fafe44376b338958c816b"
   integrity sha512-zfrf6sTY+iHJzjZI6gGOI91ZeztKTluzvCV/hLl8lp6vxrd1o+nLH9ajQI/fV7dXZ9sdB8zxNMf0RcbG6s+UAg==
