@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Page } from './components/page';
 import { Card } from './components/card';
 // TODO: カッコよくhooksにしたい
 // import { useProfile } from './hooks';
@@ -21,6 +22,8 @@ function App() {
   // Profile は /node_modules/@liff/get-profile/lib/index.d.ts にあるけど、exportされてない？
   const [profile, setProfile] = useState<any>();
 
+  // TODO: hooksにしたい
+  // 少なくともasync/awaitで書きたい
   useEffect(() => {
     liff
       .init({
@@ -43,7 +46,7 @@ function App() {
 
   return (
     <div className="App">
-      {error ? error : <Card userId={profile?.userId}></Card>}
+      {error ? error : <Page><Card userId={profile?.userId}></Card></Page>}
     </div>
   );
 }
