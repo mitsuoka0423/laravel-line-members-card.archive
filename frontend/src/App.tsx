@@ -10,8 +10,6 @@ const isMockMode = import.meta.env.VITE_LIFF_MOCK_MODE === 'true';
 const liffId = import.meta.env.VITE_LIFF_ID;
 const redirectUri = import.meta.env.VITE_LIFF_REDIRECT_URI;
 
-const isLoggedIn = liff.isLoggedIn();
-
 if (isMockMode) {
   console.log('mock mode');
   liff.use(new LiffMockPlugin());
@@ -32,7 +30,7 @@ function App() {
         mock: isMockMode,
       })
       .then(() => {
-        if (!isLoggedIn) {
+        if (!liff.isLoggedIn()) {
           liff.login({ redirectUri });
         }
         liff.getProfile().then((profile) => {
