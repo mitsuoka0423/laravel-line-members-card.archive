@@ -68,8 +68,8 @@ Route::post('/webhook', function (Request $request) use ($bot) {
     return 'ok!';
 });
 
-Route::get('/users/{user_id}', function ($user_id) {
-    $member = Member::find($user_id);
+Route::get('/members/{member_id}', function ($member_id) {
+    $member = Member::find($member_id);
 
     if (empty($member)) {
         return abort(404);
