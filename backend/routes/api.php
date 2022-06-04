@@ -8,6 +8,7 @@ use LINE\LINEBot\Constant\HTTPHeader;
 use LINE\LINEBot\Event\FollowEvent;
 use LINE\LINEBot\Event\MessageEvent\TextMessage;
 use LINE\LINEBot\HTTPClient\CurlHTTPClient;
+use App\Models\Member;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +43,24 @@ Route::post('/webhook', function (Request $request) use ($bot) {
             return $bot->replyText($event->getReplyToken(), $event->getText());
         }
         if ($event instanceof FollowEvent) {
+            $user_id = $event->getUserId();
+            Log::debug($user_id);
+
+            $member = Member::find($user_id);
+            Log::debug($member);
+
+            if (empty($member)) {
+                $barcode_id = strval(rand(1000000000, 9999999999));
+                Log::debug($barcode_id);
+
+                $member = Member::firstOrCreate([
+                    'user_id' => $user_id,
+                    'barcode_id' => $barcode_id,
+                ]);
+                Log::debug('Member is created.');
+                Log::debug($member);
+            }
+
             return $bot->replyText($event->getReplyToken(), '[bot]友達登録されたよ！');
         }
     });
