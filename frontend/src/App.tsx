@@ -5,11 +5,12 @@ import { Card } from './components/card';
 // import { useProfile } from './hooks';
 import liff from '@line/liff';
 import { LiffMockPlugin } from '@line/liff-mock';
-import './App.css';
 
 const isMockMode = import.meta.env.VITE_LIFF_MOCK_MODE === 'true';
 const liffId = import.meta.env.VITE_LIFF_ID;
 const redirectUri = import.meta.env.VITE_LIFF_REDIRECT_URI;
+
+const isLoggedIn = liff.isLoggedIn();
 
 if (isMockMode) {
   console.log('mock mode');
@@ -31,7 +32,7 @@ function App() {
         mock: isMockMode,
       })
       .then(() => {
-        if (!liff.isLoggedIn()) {
+        if (!isLoggedIn) {
           liff.login({ redirectUri });
         }
         liff.getProfile().then((profile) => {
@@ -46,7 +47,13 @@ function App() {
 
   return (
     <div className="App">
-      {error ? error : <Page><Card userId={profile?.userId}></Card></Page>}
+      {error ? (
+        error
+      ) : (
+        <Page>
+          <Card userId={profile?.userId}></Card>
+        </Page>
+      )}
     </div>
   );
 }
