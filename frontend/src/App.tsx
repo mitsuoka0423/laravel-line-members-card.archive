@@ -45,12 +45,12 @@ function App() {
 
   return (
     <div className="App">
-      {error ? (
-        error
-      ) : (
+      {profile?.userId ? (
         <Page>
-          <Card userId={profile?.userId}></Card>
+          <Card userId={profile.userId}></Card>
         </Page>
+      ) : (
+        '読込中'
       )}
     </div>
   );
