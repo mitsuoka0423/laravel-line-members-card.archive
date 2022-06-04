@@ -33,7 +33,7 @@ Route::post('/webhook', function (Request $request) use ($bot) {
 
     $signature = $request->header(HTTPHeader::LINE_SIGNATURE);
     if (empty($signature)) {
-        return abort(400, 'Bad Request');
+        return abort(400);
     }
 
     $events = $bot->parseEventRequest($request->getContent(), $signature);
@@ -66,4 +66,14 @@ Route::post('/webhook', function (Request $request) use ($bot) {
     });
 
     return 'ok!';
+});
+
+Route::get('/users/{user_id}', function ($user_id) {
+    $member = Member::find($user_id);
+
+    if (empty($member)) {
+        return abort(404);
+    }
+
+    return $member;
 });
