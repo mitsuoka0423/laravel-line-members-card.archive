@@ -39,7 +39,7 @@ jobs:
 
       - run: php -v
       - run: composer -v
-      - run: cd backend && composer install -n --prefer-dist
+      - run: cd backend && composer install -n --prefer-dist --ignore-platform-req=ext-sockets
 
       - save_cache:
           key: v1-dependencies-{{ checksum "composer.json" }}
