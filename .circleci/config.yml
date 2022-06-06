@@ -10,7 +10,7 @@ jobs:
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     docker:
       # Specify the version you desire here
-      - image: php:8.1.7RC1-apache
+      - image: composer:2.2.13
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -37,6 +37,8 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
+      - run: php -v
+      - run: composer -v
       - run: cd backend && composer install -n --prefer-dist
 
       - save_cache:
